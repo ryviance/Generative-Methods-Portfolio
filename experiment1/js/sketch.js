@@ -1,6 +1,6 @@
 // sketch.js - purpose and description here
-// Author: Your Name
-// Date:
+// Author: Eion Ling
+// Date: 4/8/25
 
 // Here is how you might set up an OOP p5.js project
 // Note that p5.js looks for a file called sketch.js
@@ -23,6 +23,8 @@ class MyClass {
 
     myMethod() {
         // code to run when method is called
+        // This can be extended to add functionality, for example:
+        console.log(`MyClass properties: ${this.property1}, ${this.property2}`);
     }
 }
 
@@ -40,21 +42,25 @@ function setup() {
   canvasContainer = $("#canvas-container");
   let canvas = createCanvas(canvasContainer.width(), canvasContainer.height());
   canvas.parent("canvas-container");
-  // resize canvas is the page is resized
+  // resize canvas if the page is resized
 
   // create an instance of the class
   myInstance = new MyClass("VALUE1", "VALUE2");
 
+  // Resize event listener
   $(window).resize(function() {
     resizeScreen();
   });
+
+  // Initial resize call
   resizeScreen();
 }
 
 // draw() function is called repeatedly, it's the main animation loop
 function draw() {
   background(220);    
-  // call a method on the instance
+
+  // Call a method on the instance (can be modified)
   myInstance.myMethod();
 
   // Set up rotation for the rectangle
@@ -76,4 +82,5 @@ function draw() {
 // mousePressed() function is called once after every time a mouse button is pressed
 function mousePressed() {
     // code to run when mouse is pressed
+    console.log("Mouse was pressed!");
 }

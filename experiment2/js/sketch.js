@@ -1,107 +1,94 @@
-// sketch.js - merged animation and generative terrain
-// Author: Eion Ling
-// Date: 4/13/2025
-
-// Constants
-const VALUE1 = 1;
-const VALUE2 = 2;
-
-const grassColor = "#74740d";
-const skyColor = "#69ade4";
-const stoneColor = "#858290";
-const treeColor = "#33330b";
-
-// Globals
-let myInstance;
-let canvasContainer;
-let centerHorz, centerVert;
-let seed = 239;
-
-class MyClass {
-  constructor(param1, param2) {
-    this.property1 = param1;
-    this.property2 = param2;
-  }
-
-  myMethod() {
-    // Add logic if needed
-  }
-}
-
-function resizeScreen() {
-  centerHorz = canvasContainer.width() / 2;
-  centerVert = canvasContainer.height() / 2;
-  resizeCanvas(canvasContainer.width(), canvasContainer.height());
-}
+// Global variables for terrain generation
+let seed = 1;
+let ground = [];
+let trees = [];
+let isFullscreen = false;
 
 function setup() {
-  canvasContainer = $("#canvas-container");
-  let canvas = createCanvas(canvasContainer.width(), canvasContainer.height());
-  canvas.parent("canvas-container");
+  const container = $('#canvas-container');
+  createCanvas(container.width(), container.height()).parent('canvas-container');
 
-  myInstance = new MyClass("VALUE1", "VALUE2");
+  generateTerrainAndTrees();
 
-  $(window).resize(function () {
-    resizeScreen();
-  });
-  resizeScreen();
+  // Hook up fullscreen change detection
+  document.onfullscreenchange = fullscreenChanged;
+}
 
-  createButton("Reimagine").mousePressed(() => {
-    seed++;
-  });
+function windowResized() {
+  resizeScreenToContainer();
 }
 
 function draw() {
-  randomSeed(seed);
+  background(135, 206, 235);  // light blue sky
 
-  // Background & Landscape
+  // Draw terrain
   noStroke();
-  fill(skyColor);
-  rect(0, 0, width, height / 2);
-
-  fill(grassColor);
-  rect(0, height / 2, width, height / 2);
-
-  fill(stoneColor);
+  fill(85, 150, 70);
   beginShape();
-  vertex(0, height / 2);
-  const steps = 10;
-  for (let i = 0; i <= steps; i++) {
-    let x = (width * i) / steps;
-    let y = height / 2 - (random() * random() * random() * height) / 4 - height / 50;
-    vertex(x, y);
+  vertex(0, height);
+  for (let x = 0; x <= width; x++) {
+    vertex(x, ground[x]);
   }
-  vertex(width, height / 2);
+  vertex(width, height);
   endShape(CLOSE);
 
-  fill(treeColor);
-  const trees = 20 * random();
-  const scrub = mouseX / width;
-  for (let i = 0; i < trees; i++) {
-    let z = random();
-    let x = width * ((random() + (scrub / 50 + millis() / 500000.0) / z) % 1);
-    let s = width / 50 / z;
-    let y = height / 2 + height / 20 / z;
-    triangle(x, y - s, x - s / 4, y, x + s / 4, y);
+  // Draw trees
+  for (let tree of trees) {
+    let sway = noise(tree.swayOffset + frameCount * 0.01) * 20 - 10;
+
+    stroke(100, 50, 20);
+    strokeWeight(4);
+    line(tree.x, tree.baseY, tree.x + sway, tree.baseY - tree.height);
+
+    noStroke();
+    fill(30, 120, 30);
+    ellipse(tree.x + sway, tree.baseY - tree.height, tree.height * 0.4, tree.height * 0.4);
+  }
+}
+
+function generateTerrainAndTrees() {
+  randomSeed(seed);
+  noiseSeed(seed);
+
+  ground = [];
+  let noiseScale = 0.005;
+  let amplitude = height * 0.3;
+  let baseHeight = height * 0.75;
+  for (let x = 0; x <= width; x++) {
+    ground[x] = baseHeight - noise(x * noiseScale) * amplitude;
   }
 
-  // Rotating square overlay
-  myInstance.myMethod();
-  push();
-  translate(centerHorz, centerVert);
-  rotate(frameCount / 100.0);
-  fill(234, 31, 81);
-  noStroke();
-  rect(-125, -125, 250, 250);
-  pop();
-
-  // Static text
-  fill(255);
-  textStyle(BOLD);
-  textSize(140);
-  text("p5*", centerHorz - 105, centerVert + 40);
+  trees = [];
+  let treeCount = floor(random(5, 15));
+  for (let i = 0; i < treeCount; i++) {
+    let xPos = random(width);
+    let baseY = ground[floor(xPos)];
+    let tHeight = random(50, 120);
+    tHeight = min(tHeight, baseY - 10);
+    let swayOffset = random(1000);
+    trees.push({ x: xPos, baseY: baseY, height: tHeight, swayOffset: swayOffset });
+  }
 }
 
-function mousePressed() {
-  // Add interaction if needed
+function resizeScreenToContainer() {
+  const container = $('#canvas-container');
+  resizeCanvas(container.width(), container.height());
+  generateTerrainAndTrees();
 }
+
+function fullscreenChanged() {
+  setTimeout(() => {
+    resizeScreenToContainer();
+  }, 100);
+}
+
+$(document).ready(function () {
+  $('#reimagine').on('click', function () {
+    seed++;
+    generateTerrainAndTrees();
+  });
+
+  $('#fullscreen').on('click', function () {
+    fullscreen(!fullscreen());
+  });
+});

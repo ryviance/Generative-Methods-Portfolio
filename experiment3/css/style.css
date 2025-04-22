@@ -46,12 +46,18 @@ h2 {
 
 /* Canvas styling */
 canvas {
-    width: 100% !important;
+    width: 50% !important;
     height: auto !important;
     display: block;
     border-radius: 6px;
     border: 1px solid #ccc;
 }
+
+#canvasContainer2 canvas {
+    width: 50% !important;  
+    height: auto !important;
+    display: block;
+  }
 
 /* Buttons */
 button {

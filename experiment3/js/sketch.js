@@ -2,7 +2,7 @@ new p5((p) => {
   let seed = 0;
   let tilesetImage;
   let currentGrid = [];
-  let numRows, numCols;
+  let gridSize = 32; // fixed square size
 
   p.preload = () => {
     tilesetImage = p.loadImage(
@@ -20,7 +20,7 @@ new p5((p) => {
   }
 
   function regenerateGrid() {
-    p.select("#asciiBox").value(gridToString(generateGrid(numCols, numRows)));
+    p.select("#asciiBox").value(gridToString(generateGrid(gridSize, gridSize)));
     reparseGrid();
   }
 
@@ -47,11 +47,11 @@ new p5((p) => {
       return;
     }
 
-    numCols = asciiBox.attribute("rows") | 0;
-    numRows = asciiBox.attribute("cols") | 0;
-
-    p.createCanvas(16 * numCols, 16 * numRows).parent("canvasContainer");
+    p.createCanvas(16 * gridSize, 16 * gridSize).parent("canvasContainer");
     p.select("canvas").elt.getContext("2d").imageSmoothingEnabled = false;
+
+    asciiBox.attribute("rows", gridSize);
+    asciiBox.attribute("cols", gridSize);
 
     reseedBtn.mousePressed(reseed);
     asciiBox.input(reparseGrid);

@@ -1,19 +1,91 @@
-/* style.css */
-
-/* Set the canvas element to be the full size of the container */
-canvas {
-    width: 100%;
-    height: 100%;
-}
-
-/* Center the canvas element on the page */
+/* Base Layout */
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #111;
+    padding: 1rem;
+    margin: 0;
 }
 
-#canvas-container {
-    width: 100%;
-    height: 600px;
+/* Main content layout */
+#content {
+    max-width: 900px;
+    margin-left: 2rem;    /* small left indent */
+    margin-right: auto;   /* no right indent */
+    padding: 1rem;
+    border: 2px solid purple;
+    background-color: #fafafa;
+    border-radius: 0;
+    box-shadow: 0 0 0 2px white;
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    margin-bottom: 0.5rem;
+}
+
+/* Section boxes */
+.minor-section {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Canvas container */
+#canvasContainer {
+    margin-bottom: 1rem;
+}
+
+/* Canvas styling */
+canvas {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* Buttons */
+button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #888;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+}
+
+button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Navigation */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+    margin-top: 1rem;
+}
+
+nav li {
+    margin: 0.25rem 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: #a239ea;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
 }

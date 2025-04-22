@@ -9,7 +9,7 @@ body {
 
 /* Main content layout */
 #content {
-    max-width: 900px;
+    max-width: 100%;
     margin-left: 2rem;    /* small left indent */
     margin-right: auto;   /* no right indent */
     padding: 1rem;

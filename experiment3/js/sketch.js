@@ -78,7 +78,7 @@ new p5((p) => {
         } else if (char === "H") {
           placeTile(i, j, 26, 0, true); // house with terrain under 
         } else if (char === "M") {
-          placeTile(i, j, 27, 0, true); // mansion — choose a different tile visually
+          placeTile(i, j, 27, 0, true); // mansion 
         }
       }
     }
@@ -293,6 +293,11 @@ new p5((p) => {
         }
       }
     }    
+
+    function reparseDungeonGrid() {
+      dungeonGrid = stringToGrid(p.select("#asciiBox2").value());
+    }
+    
   
     p.setup = () => {
       p.createCanvas(16 * gridSize, 16 * gridSize).parent("canvasContainer2");
@@ -300,6 +305,8 @@ new p5((p) => {
   
       p.select("#reseedButton2").mousePressed(reseedDungeon);
       reseedDungeon();
+      p.select("#asciiBox2").input(reparseDungeonGrid);
+
     };
   
     p.draw = () => {

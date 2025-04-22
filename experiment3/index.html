@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Experiment X - Alternate Worlds</title>
+  <title>Experiment 3 - Alternate Worlds</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="css/style.css" />
@@ -38,17 +38,27 @@
 
       <div class="minor-section">
         <h2>Description</h2>
-        <p>Procedurally generates a tile-based world using a seeded random function and ASCII representation. You can reseed to explore alternate world variations.</p>
+        <p>This project creates 2 randomly generated tile-based worlds using a seeded system. Each time you click "Reseed," a new world layout appears, 
+          filled with grass, trees, houses, and ocassionally white houses. For the dungeon, there are different chest rarities, doors, and hallways.
+          The world is visualized with tiles and also represented in ASCII form, making it easily visualized. It’s an interesting way to experiment 
+          with procedural generation and see how small changes in the seed can shape an entire map.</p>
       </div>
 
       <div class="minor-section">
         <h2>Technical</h2>
-        <p>This sketch uses p5.js to build a tile-based ASCII environment. Tiles are drawn from a pixel art tileset and updated based on the seed.</p>
+        <p>This sketch uses p5.js to build a tile-based ASCII environment. Tiles are drawn from a pixel art tileset and updated based on the seed. You 
+          can also manually edit the world using the ASCII textbox below each world. For the overworld, - is grass, ^ is tree, H is red house, M is white
+          house. For the dungeon, # is wall, . is room/hallway, D is door, C is silver chest, T is black chest, G is gold chest.
+        </p>
       </div>
 
       <div class="minor-section">
         <h2>Reflection</h2>
-        <p>This project helped me understand how randomness, noise seeds, and procedural generation work together in creative coding.</p>
+        <p>This project helped me understand how randomness, noise seeds, and procedural generation work together in creative coding. I also thought thought
+          the ASCII generation was a super interesting yet simplistic and ingenuous way to represent procedural generation. I didn't realize it was kind of
+          less complicated than I thought! Each randomly procedurally generated structure or object can have a different heuristic, mathematical function, logic,
+          or just randomness probability.
+        </p>
       </div>
     </section>
 

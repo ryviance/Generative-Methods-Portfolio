@@ -117,30 +117,88 @@ new p5((p) => {
     }
   
     function generateDungeonGrid(cols, rows) {
-      let grid = [];
-      for (let i = 0; i < rows; i++) {
-        let row = [];
-        for (let j = 0; j < cols; j++) {
-          if (p.random() < 0.15) row.push("#"); // wall
-          else row.push("."); // floor
+      // initialize grid as all walls
+      let grid = Array.from({ length: rows }, () =>
+        Array.from({ length: cols }, () => "#")
+      );
+    
+      const rooms = [];
+      const roomCount = 6;
+      const minSize = 4, maxSize = 8;
+    
+      function createRoom(x, y, w, h) {
+        for (let i = y; i < y + h; i++) {
+          for (let j = x; j < x + w; j++) {
+            if (i >= 0 && i < rows && j >= 0 && j < cols) {
+              grid[i][j] = ".";
+            }
+          }
         }
-        grid.push(row);
       }
+    
+      for (let i = 0; i < roomCount; i++) {
+        const w = p.floor(p.random(minSize, maxSize));
+        const h = p.floor(p.random(minSize, maxSize));
+        const x = p.floor(p.random(1, cols - w - 1));
+        const y = p.floor(p.random(1, rows - h - 1));
+        const newRoom = { x, y, w, h, cx: x + p.floor(w / 2), cy: y + p.floor(h / 2) };
+    
+        let overlaps = rooms.some(r =>
+          x < r.x + r.w &&
+          x + w > r.x &&
+          y < r.y + r.h &&
+          y + h > r.y
+        );
+    
+        if (!overlaps) {
+          createRoom(x, y, w, h);
+    
+          if (rooms.length > 0) {
+            const prev = rooms[rooms.length - 1];
+    
+            // connect center to previous center
+            if (p.random() < 0.5) {
+              carveH(prev.cx, newRoom.cx, prev.cy);
+              carveV(prev.cy, newRoom.cy, newRoom.cx);
+            } else {
+              carveV(prev.cy, newRoom.cy, prev.cx);
+              carveH(prev.cx, newRoom.cx, newRoom.cy);
+            }
+          }
+    
+          rooms.push(newRoom);
+        }
+      }
+    
+      function carveH(x1, x2, y) {
+        for (let x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
+          if (y >= 0 && y < rows && x >= 0 && x < cols)
+            grid[y][x] = ".";
+        }
+      }
+    
+      function carveV(y1, y2, x) {
+        for (let y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
+          if (y >= 0 && y < rows && x >= 0 && x < cols)
+            grid[y][x] = ".";
+        }
+      }
+    
       return grid;
-    }
+    }    
   
     function drawDungeon(grid) {
-      p.background(128);
+      p.background(0);
       for (let i = 0; i < grid.length; i++) {
         for (let j = 0; j < grid[i].length; j++) {
           const char = grid[i][j];
           let ti = 0, tj = 0;
-          if (char === ".") [ti, tj] = [1, 0];      // dungeon floor
-          else if (char === "#") [ti, tj] = [2, 0]; // wall
+          if (char === ".") [ti, tj] = [20, 23];      // dungeon floor tile in tileset
+          else if (char === "#") [ti, tj] = [21, 21]; // dungeon wall tile in tileset
           p.image(tilesetImage2, 16 * j, 16 * i, 16, 16, 8 * ti, 8 * tj, 8, 8);
         }
       }
-    }
+    }    
   
     p.setup = () => {
       p.createCanvas(16 * gridSize, 16 * gridSize).parent("canvasContainer2");

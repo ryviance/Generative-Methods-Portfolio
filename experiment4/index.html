@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experiment 4 - Procedural Tile World</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="../css/site.css" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+  <!-- Libraries -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.min.js"></script>
+
+  <!-- Site Scripts -->
+  <script type="text/javascript" src="../js/site.js" defer></script>
+  <script type="text/javascript" src="./js/sketch.js" defer></script>
+
+  <style>
+    /* Optional: Ensures canvas fills and centers in container */
+    #canvas-container {
+      width: 100%;
+      height: 600px;
+      position: relative;
+    }
+
+    canvas {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <main id="content">
+    <section>
+      <h1>Experiment 4 - Procedural Tile World</h1>
+
+      <div class="minor-section">
+        <div id="canvas-container">
+          <!-- p5.js will inject canvas here -->
+        </div>
+        <div class="fullscreen-box">
+          <button id="fullscreen">Fullscreen</button>
+        </div>
+      </div>
+
+      <div class="minor-section">
+        <h2>Description</h2>
+        <p>This experiment explores an infinite procedural tile world using p5.js and Perlin noise, complete with interactivity and scrolling.</p>
+      </div>
+
+      <div class="minor-section">
+        <h2>Technical</h2>
+        <p>The world is generated on-the-fly using Perlin noise, with arrow-key camera controls and seed-based regeneration. Clicking on tiles marks them, and the canvas resizes dynamically.</p>
+      </div>
+
+      <div class="minor-section">
+        <h2>Reflection</h2>
+        <p>This project challenged me to manage canvas resizing, camera logic, and procedural generation in one cohesive system. It was rewarding to see it all come together.</p>
+      </div>
+    </section>
+
+    <nav id="links" class="minor-section">
+      <ul>
+        <li><a href="../index.html">Back to Home</a></li>
+      </ul>
+    </nav>
+  </main>
+</body>
+</html>

@@ -15,16 +15,26 @@ function setup() {
     canvasWidth = containerElement.clientWidth || windowWidth;
     canvasHeight = containerElement.clientHeight || windowHeight;
   }
+
   let canvas = createCanvas(canvasWidth, canvasHeight);
   if (containerElement) canvas.parent(containerElement);
   noSmooth();
   noiseSeed(seed);
   randomSeed(seed);
 
+  // Create a container div to hold the label and input
+  let seedControls = createDiv();
+  seedControls.style('margin-top', '12px');
+  if (containerElement) seedControls.parent(containerElement);
+
+  // Label and input
+  let label = createSpan("Seed: ");
+  label.parent(seedControls);
+
   let seedInput = createInput(String(seed), 'number');
-  seedInput.position(10, 10);
   seedInput.style('width', '100px');
   seedInput.attribute('title', 'Enter a numerical seed and press Enter');
+  seedInput.parent(seedControls);
   seedInput.changed(() => {
     let newSeed = parseInt(seedInput.value());
     if (!isNaN(newSeed)) {

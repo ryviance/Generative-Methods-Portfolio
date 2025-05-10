@@ -1,70 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<!-- This title is used for tabs and bookmarks -->
-	<title>Experiment X - Subject/Topic</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evolutionary Art Generator</title>
 
-	<!-- Use UTF character set, a good idea with any webpage -->
-	<meta charset="UTF-8" />
-	<!-- Set viewport so page remains consistently scaled w narrow devices -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="../css/site.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
 
-	<!-- Include CSS file, including a site-wide CSS and for this particular page -->
-	<link rel="stylesheet" type="text/css" href="../css/site.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+  <!-- Libraries -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
 
-	<!-- Load jQuery library -->
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-        crossorigin="anonymous"></script>
-	<!-- Load p5.js library -->
-	<script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
-
-	<!-- Link to javascript files - DEFER waits until all elements are rendered -->
-    <script type="text/javascript" src="../js/site.js" DEFER></script>
-	<!-- Use me for a JavaScript OOP Project -->
-	<script type="text/javascript" src="./js/project.js" DEFER></script>
-	<!-- Use me for a p5.js project -->
-	<script type="text/javascript" src="./js/sketch.js" DEFER></script>
+  <!-- Scripts -->
+  <script type="text/javascript" src="../js/site.js" defer></script>
+  <script type="text/javascript" src="./js/project.js" defer></script>
+  <script type="text/javascript" src="./js/sketch.js" defer></script>
 </head>
+
 <body>
-	<!-- Style this page by changing the CSS in ../css/site.css or css/experiment.css -->
-	<main id="content">
-		<section>
+  <main id="content">
+    <section>
+      <h1>Evolutionary Art Generator</h1>
 
-			<h1>Experiment X - Subject/Topic</h1>
+      <div class="minor-section">
+        <div id="canvas-container">
+          <!-- Canvas will be inserted here -->
+        </div>
 
-			<div class="minor-section">
-				<div id="canvas-container">
-					<!-- canvas will be added here -->
-				</div>
-                <div class="fullscreen-box">
-                    <button id="fullscreen">Fullscreen</button>
-                </div>
-			</div>
+        <!-- Controls Section -->
+        <div style="margin-top: 1em;">
+          <label for="dropper">Choose inspiration image: </label>
+          <select id="dropper"></select>
+          <button id="restart">Restart</button>
+        </div>
 
-			<div class="minor-section">
-				<h2>Description</h2>
-				<p>What are you trying to acomplish with this experiment?</p>
-			</div>
+        <div style="margin-top: 1em;">
+          <label for="slider">Mutation rate: </label>
+          <input type="range" id="slider" min="0" max="100" value="25" />
+          <span id="rate">25</span>
+        </div>
 
-			<div class="minor-section">
-				<h2>Technical</h2>
-				<p>Describe in detail what you did technically and how it works?</p>
-			</div>
+        <div style="margin-top: 1em;">
+          <strong>Score:</strong> <span id="activeScore">0</span> |
+          <strong>Best:</strong> <span id="bestScore">0</span> |
+          <strong>FPS:</strong> <span id="fpsCounter">0</span>
+        </div>
+      </div>
 
-			<div class="minor-section">
-				<h2>Reflection</h2>
-				<p>Each person that worked on the code should reflect on the process, the difficulties, and the successes of the experiment.</p>
-			</div>
+      <!-- Original Image Display -->
+      <div class="minor-section">
+        <h2>Original Inspiration</h2>
+        <div id="original-image"></div>
+      </div>
 
-		</section>
-		<nav id="links" class="minor-section">
-			<!-- Put link back to homepage here. -->
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-            </ul>
-		</nav>
-	</main>
+      <!-- Best Design Display -->
+      <div class="minor-section">
+        <h2>Best Design</h2>
+        <div id="best"></div>
+      </div>
+
+      <!-- Memory of Saved Designs -->
+      <div class="minor-section">
+        <h2>Memory of Saved Designs</h2>
+        <div id="memory" data-max-items="6"></div>
+      </div>
+
+      <!-- Description Section -->
+      <div class="minor-section">
+        <h2>Description</h2>
+        <p>
+          This project explores generative art through an evolutionary algorithm that attempts to visually approximate a target image using randomly generated rectangles. 
+		  Inspired by biological evolution, the system continuously mutates a pool of rectangles to improve its resemblance to a chosen image. Users can select from several 
+		  well-known reference artworks and adjust the mutation rate in real time. The goal is to simulate how simple rules and variation can converge toward recognizable forms over time.
+        </p>
+      </div>
+
+      <!-- Technical Section -->
+      <div class="minor-section">
+        <h2>Technical</h2>
+        <p>
+          The project is implemented in JavaScript using the p5.js creative coding library. It begins with a randomly generated set of colored rectangles layered over 
+		  a uniform background. In each animation frame, the system mutates this design slightly and evaluates how closely it matches the pixel values of the inspiration 
+		  image. If the new version performs better according to a pixel-by-pixel similarity metric, it replaces the previous best design. The original image is 
+		  displayed alongside the evolving design, and the best result is archived using HTML canvas snapshots. The mutation rate is adjustable via a slider, allowing 
+		  users to influence convergence speed.
+        </p>
+      </div>
+
+      <!-- Reflection Section -->
+      <div class="minor-section">
+        <h2>Reflection</h2>
+        <p>
+          Working on this project deepened my understanding of how simple evolutionary algorithms can be applied outside typical computer science topics
+		  like algorithms or data science. One challenge I encountered was ensuring performance remained fast while comparing large pixel arrays every frame, especially with high-resolution images. 
+		  Resizing inspiration images and optimizing canvas size helped resolve this issue. I also gained experience integrating p5.js with dynamic HTML controls, 
+		  which improved the interactivity of the system.I found that working on this project felt pretty rewarding as the results look super cool.
+        </p>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav id="links" class="minor-section">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+      </ul>
+    </nav>
+  </main>
 </body>
 </html>
